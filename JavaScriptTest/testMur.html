@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Test Canva</title>
+
+    <style>
+    	* { padding: 0; margin: 0; }
+    	canvas { background: #eee; display: block; margin: 0 auto; }
+    </style>
+
+</head>
+	<body>
+
+	<canvas id="myCanvas" width="480" height="320"></canvas>
+
+		<script>
+			var canvas = document.getElementById("myCanvas");
+			var ctx = canvas.getContext("2d");
+
+
+			var heightWall = canvas.height;
+
+			var coef = 0;
+
+			var rightPressed = false;
+			var leftPressed = false;
+			var forwardPressed = false;
+			var backwardPressed = false;
+			var spacePressed = false;
+
+			document.addEventListener("keydown", keyDownHandler, false);
+			document.addEventListener("keyup", keyUpHandler, false);
+
+			function keyDownHandler(e) {
+			   
+			    if(e.keyCode == 38) {
+			        forwardPressed = true;
+			    }
+			    else if(e.keyCode == 40) {
+			        backwardPressed = true;
+			    }
+			     else if(e.keyCode == 32) {
+			        spacePressed = true;
+			    }
+			}
+			function keyUpHandler(e) {
+
+			    if(e.keyCode == 38) {
+			        forwardPressed = false;
+			    }
+			    else if(e.keyCode == 40) {
+			        backwardPressed = false;
+			    }
+			     else if(e.keyCode == 32) {
+			        spacePressed = false;
+			    }
+			}
+			function drawWall(y,z) {
+			    ctx.beginPath();
+			    ctx.rect(0, y  , canvas.width,  canvas.height/2);
+			    ctx.fillStyle = z;
+			    ctx.fill();
+			    ctx.closePath();
+			}
+			function drawWallPrincipal(y,z,e) {
+			    ctx.beginPath();
+			    ctx.rect(0, y + coef, canvas.width, 2 * -coef + canvas.height/3);
+			    ctx.fillStyle = z;
+			    ctx.fill();
+			    ctx.closePath();
+			}
+			function draw() {
+    			ctx.clearRect(0, 0, canvas.width, canvas.height);
+    			
+    			if(forwardPressed){
+    				coef -= 0.5;
+    			}
+    			else if(backwardPressed){
+    				coef += 0.5;
+    			}
+    			drawWall(0, "#222222");
+    			drawWall(heightWall/2, "#888888");
+    			drawWallPrincipal(heightWall/3, "#FF00FF",coef);
+    			
+
+
+    		}
+    		var interval = setInterval(draw, 10);
+		</script>
+
+
+	</body>
+</html>
